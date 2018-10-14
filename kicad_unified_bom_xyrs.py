@@ -145,8 +145,14 @@ if not pcb_filename:
 
 board = pcbnew.LoadBoard(pcb_filename)
 output_dir = board.GetPlotOptions().GetOutputDirectory()
+
+file_suffix = '.xyrs' if args.output_format == 'macrofab' else '-xyrs.csv'
 if not csv_filename:
-    csv_filename = os.path.join(proj_dir,output_dir, proj+'-bom-xyrs.csv')
+    csv_filename = '{}{}'.format(
+        os.path.join(proj_dir, output_dir, proj+'-bom'),
+        file_suffix,
+    )
+
 eprint('[Info] Writing output to {}'.format(csv_filename))
 for module in board.GetModules():
     # Only read modules marked as NORMAL+INSERT
